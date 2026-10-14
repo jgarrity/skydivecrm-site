@@ -142,6 +142,139 @@
   .bottom .eyebrow{display:block;margin-bottom:14px}
 
 
+  /* Before / after: the mobile experience */
+  .ba{background:#fff}
+  .ba-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:40px;margin-top:44px;align-items:stretch}
+  .ba-side{border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:18px}
+  .ba-side.before{background:#F1F3F5;border:1px solid #E1E5EA}
+  .ba-side.after{background:linear-gradient(180deg,var(--sky-light) 0%,var(--haze) 100%);border:1px solid var(--line)}
+  .ba-tag{align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+  .before .ba-tag{background:#DDE2E8;color:#4A5563}
+  .after .ba-tag{background:var(--midnight);color:#fff}
+  .ba-side h3{font-size:22px;font-weight:600}
+  .ba-side > p{color:var(--slate);font-size:16px;margin-top:-8px}
+  .phones{display:flex;gap:14px;justify-content:center;align-items:flex-start}
+  .phone{flex:none;width:168px;height:340px;border-radius:30px;background:#111;padding:7px;box-shadow:0 18px 36px -18px rgba(14,27,46,.45)}
+  .screen{position:relative;width:100%;height:100%;border-radius:24px;overflow:hidden;background:#fff;display:flex;flex-direction:column;font-family:'Segoe UI',system-ui,sans-serif}
+  .screen::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:54px;height:15px;border-radius:999px;background:#111;z-index:2}
+  .scr-load{background:#07336F;color:#fff;align-items:center;justify-content:center;gap:12px;font-size:14px}
+  .dots{display:flex;gap:6px;align-items:center}
+  .dots i{width:5px;height:5px;border-radius:50%;background:#fff;opacity:.4;animation:dot 1.2s infinite}
+  .dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}.dots i:nth-child(4){animation-delay:.6s}
+  @keyframes dot{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
+  .scr-spin{align-items:center;justify-content:center;gap:12px;font-weight:600;font-size:14px;color:#222}
+  .scr-spin .x{position:absolute;top:30px;left:14px;font-size:11px;color:#1a6fd8;font-weight:400}
+  .spinner{width:26px;height:26px;border-radius:50%;border:3px solid #ddd;border-top-color:#888;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .scr-list{font-size:8.5px;color:#222;padding-top:36px}
+  .scr-list .ttl{font-weight:700;font-size:11px;padding:0 10px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .scr-list .srch{background:#F3F3F3;border-top:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;padding:6px 10px;color:#666}
+  .scr-list > *{flex-shrink:0}
+  .row-i{display:grid;grid-template-columns:20px 1fr;gap:6px;padding:7px 8px;border-bottom:1px solid #eee;background:#FAFAFA}
+  .row-i .av{width:20px;height:20px;border-radius:50%;background:#8E7CC3;color:#fff;font-size:7.5px;display:grid;place-items:center}
+  .row-i b{font-weight:600}
+  .row-i .sub{color:#555}
+  .row-i .task{grid-column:2;background:#EFEFEF;border-radius:3px;padding:3px 5px;margin-top:3px;display:flex;justify-content:space-between;color:#333}
+  .scr-list .bar{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:7.5px;color:#1a5fb4;padding:8px 2px 18px;background:#F2F2F2;border-top:1px solid #ddd}
+  .cap{display:flex;gap:14px;justify-content:center;text-align:center;font-size:12.5px;color:#5A6676;font-weight:600}
+  .cap span{width:168px}
+  .cap b{display:block;color:var(--midnight);font-size:13px}
+  .phone.sky .screen{background:var(--haze);padding:30px 9px 10px;gap:8px;font-family:var(--body)}
+  .phone.sky .vig-head{font-size:10px;gap:6px}
+  .phone.sky .vig-head b{font-size:11px}
+  .phone.sky .bubble{font-size:10.5px;padding:7px 9px;max-width:92%}
+  .phone.sky .bubble.me{gap:6px}
+  .phone.sky .done{gap:4px;margin-top:5px}
+  .phone.sky .done span{font-size:9px;padding:2px 6px}
+  .phone.sky .deal{padding:7px 9px;gap:2px}
+  .phone.sky .deal .t{font-size:10.5px}
+  .phone.sky .deal .a,.phone.sky .deal .m{font-size:9px}
+  .phone.sky .deal .m b{font-size:10.5px}
+  .phone.sky .btn-xs{min-height:28px;padding:0 10px;font-size:10px}
+  .ba-after-phone{display:flex;justify-content:center}
+  .ba-after-phone .phone{width:200px;height:400px}
+
+  /* Before / after: desktop + tabs */
+  .ba-tabs{display:none;gap:6px;margin-top:28px;background:var(--haze);border:1px solid var(--line);border-radius:999px;padding:5px;width:max-content}
+  .js .ba-tabs{display:flex}
+  .ba-tab{font:inherit;font-weight:700;font-size:15px;border:0;background:transparent;color:var(--slate);padding:10px 22px;border-radius:999px;cursor:pointer;min-height:44px}
+  .ba-tab[aria-selected="true"]{background:var(--midnight);color:#fff}
+  .ba-tab:focus-visible{outline:3px solid var(--sky-ink);outline-offset:2px}
+  .ba-desk{display:grid;gap:28px;margin-top:32px}.ba-desk>div{min-width:0}.ba [hidden]{display:none!important}
+  .ba-label{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .ba-label h3{font-size:22px;font-weight:600}
+  .ba-label span{color:var(--slate);font-size:15px}
+  .win-scroll{overflow-x:auto;border-radius:14px}
+  .win{min-width:860px;border-radius:14px;overflow:hidden;border:1px solid #D5DBE2;background:#fff;box-shadow:var(--shadow);font-family:'Segoe UI',system-ui,sans-serif}
+  .win-bar{display:flex;align-items:center;gap:6px;background:#E9EDF1;padding:8px 12px}
+  .win-bar i{width:10px;height:10px;border-radius:50%;background:#C7CED6}
+  .win-bar .url{margin-left:10px;flex:1;background:#fff;border-radius:999px;padding:4px 12px;font-size:11.5px;color:#56606B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .d-top{display:flex;align-items:center;gap:14px;background:#0B1A33;color:#fff;padding:9px 14px;font-size:13px}
+  .d-top b{font-weight:600}
+  .d-top .sep{width:1px;height:16px;background:#3A4A63}
+  .d-top .srch{margin:0 auto;width:36%;background:#C9CFD8;color:#3B4656;border-radius:2px;padding:4px 10px;font-size:12px}
+  .d-top .ic{width:16px;height:16px;border-radius:50%;border:1.5px solid #9FB0C7}
+  .d-body{display:grid;grid-template-columns:38px 1fr;background:#F4F5F7}
+  .d-rail{background:#fff;border-right:1px solid #E3E6EA;display:grid;align-content:start;gap:14px;padding:12px 0;justify-items:center}
+  .d-rail i{width:14px;height:14px;border:1.5px solid #8A94A3;border-radius:3px}
+  .d-main{padding:10px;min-width:0}
+  .d-cmd{display:flex;gap:16px;align-items:center;background:#fff;border-radius:6px;padding:8px 12px;font-size:12.5px;color:#222;white-space:nowrap;overflow:hidden}
+  .d-panel{background:#fff;border-radius:6px;margin-top:8px;padding:10px 0 0;position:relative}
+  .d-view{display:flex;justify-content:space-between;align-items:center;padding:0 12px 8px;gap:12px}
+  .d-view b{font-size:16px;font-weight:600;border-bottom:2px solid #1F5FB4;padding-bottom:4px}
+  .d-view span{font-size:12px;color:#1F5FB4;white-space:nowrap}
+  .d-view .kw{color:#666;border:1px solid #999;padding:3px 8px;border-radius:2px}
+  .d-group{font-size:12px;padding:0 12px 8px}
+  .d-tbl{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px;color:#222}
+  .d-tbl th{font-weight:400;color:#555;text-align:left;padding:6px 8px;border-bottom:1px solid #E1E1E1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .d-tbl td{padding:8px;border-bottom:1px solid #EDEDED;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .d-tbl .r{text-align:right}
+  .d-hbar{height:7px;margin:4px 12px 0;background:#E6E6E6;border-radius:4px;position:relative}
+  .d-hbar::after{content:"";position:absolute;left:0;top:0;bottom:0;width:48%;background:#8A8A8A;border-radius:4px}
+  .d-az{display:flex;justify-content:space-between;font-size:11px;color:#444;padding:10px 12px;background:#FAFAFA;margin-top:8px}
+  .pin{position:absolute;width:24px;height:24px;border-radius:50%;background:var(--coral);color:var(--midnight);font:700 12px/24px var(--body);text-align:center;box-shadow:0 0 0 4px rgba(255,107,74,.25)}
+  .pin-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:14px;font-size:15px;color:var(--slate)}
+  .pin-notes div{display:flex;gap:10px;align-items:flex-start}
+  .pin-notes b{flex:none;width:22px;height:22px;border-radius:50%;background:var(--coral);color:var(--midnight);font-size:12px;display:grid;place-items:center}
+  .sk-app{display:grid;grid-template-columns:1fr;gap:14px;background:var(--haze);padding:14px;font-family:var(--body)}
+  .sk-today{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .sk-today h4{margin:0;font-family:var(--display);font-size:15px}
+  .nba-item{border:1px solid var(--line);border-left:4px solid var(--coral);border-radius:12px;padding:10px 12px;display:grid;gap:4px;font-size:13px}
+  .nba-item b{font-size:13.5px}
+  .nba-item span{color:var(--slate)}
+  .nba-item .btn-xs{justify-self:start;min-height:30px;padding:0 12px;font-size:12px;margin-top:4px}
+  .sk-ask{margin-top:auto;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 14px;font-size:13px;color:var(--slate);background:var(--haze)}
+  .sk-ask .mic{margin-left:auto;width:32px;height:32px;border-radius:50%;background:var(--midnight);color:#fff;display:grid;place-items:center}
+  .sk-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-content:start}
+  .sk-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--slate)}.sk-bar b{font-family:var(--display);font-size:16px;color:var(--midnight)}
+  .sk-tools{margin-left:auto;display:flex;gap:8px}.sk-tool{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--midnight)}
+
+  .sk-stage{position:relative;min-height:440px}
+  .sk-stage::after{content:"";position:absolute;inset:0;background:rgba(14,27,46,.28);border-radius:12px;pointer-events:none}
+  .sk-modal{position:absolute;z-index:2;top:18px;right:24px;width:380px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 24px 48px -16px rgba(14,27,46,.5);font-size:12px}
+  .sm-h{background:var(--midnight);color:#fff;padding:12px 16px;display:grid;gap:2px}.sm-h span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}.sm-h b{font-family:var(--display);font-size:15px}
+  .sm-b{padding:14px 16px;display:grid;gap:10px}
+  .sm-sum{background:var(--haze);border-radius:8px;padding:8px 10px;color:var(--slate);font-size:11.5px}
+  .sm-f{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .sm-f label,.sm-l{display:grid;gap:4px;font-weight:600;color:var(--midnight);font-size:11.5px}
+  .sm-f span{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-weight:400}
+  .sm-l em{font-style:normal;font-weight:400;color:var(--slate);font-size:10.5px}
+  .sm-ta{border:1.5px solid var(--midnight);border-radius:8px;padding:9px 10px;min-height:52px;color:var(--midnight);line-height:1.45}
+  .sm-will{margin:0;color:var(--slate);font-size:11px;line-height:1.45}
+  .sm-btns{display:flex;justify-content:flex-end;gap:8px}
+  .m-board{display:flex;flex-direction:column;gap:7px;font-family:var(--body)}
+  .m-board .mb-h{display:flex;justify-content:space-between;align-items:baseline}.m-board .mb-h b{font-family:var(--display);font-size:13px;color:var(--midnight)}.m-board .mb-h span{font-size:9px;color:var(--slate)}
+  .m-stages{display:flex;gap:4px;overflow:hidden}.m-stages span{flex:none;font-size:8.5px;font-weight:600;padding:4px 7px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--slate)}.m-stages span.on{background:var(--midnight);border-color:var(--midnight);color:#fff}
+  .m-board .card{padding:7px 8px;font-size:9px;gap:2px}.m-board .card .t{font-size:10px}.m-board .card .row b{font-size:10px}
+  .m-tools{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:5px}.m-tools span{white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:4px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 4px;font-size:8px;font-weight:600;color:var(--midnight)}
+  .sk-board .col-h{padding:9px 11px}
+  .sk-board .col-h b{font-size:13px}
+  .sk-board .col-h span{font-size:11.5px}
+  .sk-board .cards{padding:8px;gap:8px}
+  .sk-board .card{padding:9px 10px;font-size:12px}
+  .sk-board .card .t{font-size:12.5px}
+  .sk-board .card .row b{font-size:12.5px}
+
   /* Deal flow board */
   .flow{background:linear-gradient(180deg,#fff 0%,var(--haze) 100%)}
   .flow-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
@@ -170,6 +303,7 @@
   .tag-new{justify-self:start;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--midnight);background:#FFE1D9;border-radius:6px;padding:2px 7px}
   .flow .vig{position:absolute;right:-28px;bottom:-56px;max-width:330px;z-index:2}
   .flow-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:88px}
+  .runs{background:linear-gradient(180deg,#fff 0%,var(--haze) 100%)}.runs-points{margin-top:48px}
   .flow-points h3{font-size:19px;font-weight:600}
   .flow-points p{color:var(--slate);margin-top:6px;font-size:16px}
 
@@ -255,6 +389,7 @@
 
   /* ============ RESPONSIVE ============ */
   @media (max-width:960px){
+  .win:has(.sk-app){min-width:0}.sk-app{grid-template-columns:1fr}.sk-board{grid-template-columns:repeat(4,200px);overflow-x:auto;padding-bottom:6px}.sk-tools{margin-left:0}.sk-stage::after{display:none}.sk-stage{min-height:0}.sk-app>*{min-width:0}.sk-modal{position:static;width:auto;margin-top:12px}
     section{padding:72px 0}
     .hero .wrap,.teaser .wrap,.demo .wrap{grid-template-columns:1fr;gap:48px}
     .hero-mark{width:160px;right:0;top:-40px}
@@ -270,6 +405,14 @@
     .nav-links a.text{display:none}
     .flow .vig{position:relative;right:auto;bottom:auto;margin-top:16px;max-width:none}
     .flow-points{grid-template-columns:1fr;margin-top:40px}
+    .ba-grid{grid-template-columns:1fr}
+    .phones{gap:8px}
+    .phone{width:calc((100% - 16px) / 3);min-width:0;height:auto;aspect-ratio:168/340}
+    .cap{gap:8px}.cap span{width:calc((100% - 16px) / 3)}
+    .ba-side{padding:16px;min-width:0}
+    .ba-after-phone .phone{width:210px;height:420px;aspect-ratio:auto}
+    .pin-notes{grid-template-columns:1fr}
+    .ba-tabs{width:100%}.ba-tab{flex:1}
   }
   @media (max-width:560px){
     body{font-size:16px}
@@ -285,6 +428,7 @@
     .board-wrap{padding:12px}
   }
   @media (prefers-reduced-motion:reduce){
+    .dots i,.spinner{animation:none}
     html{scroll-behavior:auto}.btn{transition:none}
     .js .reveal,.js .reveal .bubble,.js .reveal .deal,.js .reveal .vig-actions{opacity:1!important;transform:none!important;transition:none!important}
   }
@@ -387,6 +531,123 @@
   </div>
 </section>
 
+<!-- ===== BEFORE / AFTER: the mobile experience (recreated screens, fictional data) ===== -->
+<section class="ba" id="before-after">
+  <div class="wrap">
+    <span class="eyebrow">Before and after</span>
+    <h2 class="h2">Same Dynamics. A different day.</h2>
+    <p class="lede">Today, updating a deal means wading through grids, sign-ins, and loading screens. With Skydive, your whole pipeline sits on one board you can read at a glance.</p>
+    <div class="ba-tabs" role="tablist" aria-label="Choose a view">
+      <button class="ba-tab" role="tab" id="tab-desk" aria-controls="ba-desk" aria-selected="true">Desktop</button>
+      <button class="ba-tab" role="tab" id="tab-mob" aria-controls="ba-mob" aria-selected="false">Mobile</button>
+    </div>
+    <div class="ba-desk" id="ba-desk" role="tabpanel" aria-labelledby="tab-desk">
+      <div>
+        <div class="ba-label"><span class="ba-tag" style="background:#DDE2E8;color:#4A5563;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:999px">Before</span><h3>Rows, columns, and guesswork</h3><span>The standard opportunity view, recreated with sample data.</span></div>
+        <div class="win-scroll"><div class="win" aria-hidden="true">
+          <div class="win-bar"><i></i><i></i><i></i><span class="url">yourcompany.crm.dynamics.com/main.aspx?appid=…&amp;pagetype=entitylist&amp;etn=opportunity&amp;viewid=…</span></div>
+          <div class="d-top"><b>Dynamics 365</b><span class="sep"></span><span>Sales</span><span class="srch">Search</span><span class="ic"></span><span class="ic"></span><span class="ic"></span></div>
+          <div class="d-body">
+            <div class="d-rail"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="d-main">
+              <div class="d-cmd"><span>Show As ⌄</span><span>Show Chart</span><span>+ New</span><span>Delete</span><span>Refresh</span><span>Visualize this view</span><span>Email a Link ⌄</span><span>Flow ⌄</span><span>Run Report ⌄</span><span>⋮</span></div>
+              <div class="d-panel">
+                <div class="d-view"><b>All Open Opportunities ⌄</b><span>Edit columns &nbsp; Edit filters &nbsp; <span class="kw">Filter by keyword</span></span></div>
+                <div class="d-group">Group By: (no grouping) ⌄</div>
+                <table class="d-tbl">
+                  <colgroup><col style="width:11%"><col style="width:14%"><col style="width:8%"><col style="width:8%"><col style="width:8%"><col style="width:5%"><col style="width:9%"><col style="width:8%"><col style="width:13%"><col style="width:5%"><col style="width:11%"></colgroup>
+                  <thead><tr><th>Account</th><th>Topic</th><th>Owner</th><th>Est. Close</th><th>Expected Start</th><th class="r">Prob.</th><th class="r">Est. Revenue</th><th>Contact</th><th>Client Need</th><th class="r">Durati…</th><th>Pipeline Phase</th></tr></thead>
+                  <tbody>
+              <tr><td>Bayline Mutual</td><td>Claims Modernization</td><td>Sam Rivera</td><td>10/28/2026</td><td>11/9/2026</td><td class="r">50</td><td class="r">$120,000.00</td><td>Dana Ruiz</td><td>Client wants pricing before the board meets</td><td class="r">12</td><td>3-Proposal</td></tr>
+              <tr><td>Harbor State Insurance</td><td>Policy Admin Renewal</td><td>Alex Chen</td><td>11/20/2026</td><td>1/5/2027</td><td class="r">60</td><td class="r">$85,000.00</td><td>Marcus Lee</td><td>Renewal of current platform licensing</td><td class="r">26</td><td>2-Qualified Opp</td></tr>
+              <tr><td>Lakeshore Life</td><td>Data Platform, Phase 1</td><td>Sam Rivera</td><td>3/30/2027</td><td>4/6/2027</td><td class="r">50</td><td class="r">$210,000.00</td><td>Priya Shah</td><td>Two-phase plan, CFO now involved</td><td class="r">20</td><td>2-Qualified Opp</td></tr>
+              <tr><td>Pinecrest Financial</td><td>Contact Center Uplift</td><td>Jordan Ames</td><td>11/3/2026</td><td>11/16/2026</td><td class="r">90</td><td class="r">$180,000.00</td><td>Laura Kim</td><td>### Contact center assessment and roadmap</td><td class="r">10</td><td>4-SOW</td></tr>
+              <tr><td>Crestview Health</td><td>Underwriting Workbench</td><td>Alex Chen</td><td>12/12/2026</td><td>1/11/2027</td><td class="r">25</td><td class="r">$150,000.00</td><td>Ana Torres</td><td>*Discovery first, then a build decision</td><td class="r">16</td><td>1-Opportunity</td></tr>
+              <tr><td>Northgate Casualty</td><td>Claims Intake Pilot</td><td>Jordan Ames</td><td>1/30/2027</td><td>2/15/2027</td><td class="r">10</td><td class="r">$125,000.00</td><td>Ben Okafor</td><td>Pilot for one region before a wider rollout</td><td class="r">8</td><td>1-Opportunity</td></tr>
+              <tr><td>Riverbend County</td><td>Benefits Eligibility Portal</td><td>Sam Rivera</td><td>12/5/2026</td><td>1/4/2027</td><td class="r">40</td><td class="r">$85,000.00</td><td>Keisha Grant</td><td>State grant timing drives the start date</td><td class="r">24</td><td>2-Qualified Opp</td></tr>
+                  </tbody>
+                </table>
+                <div class="d-hbar"></div>
+                <div class="d-az"><span>All</span><span>#</span><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span><span>J</span><span>K</span><span>L</span><span>M</span><span>N</span><span>O</span><span>P</span><span>Q</span><span>R</span><span>S</span><span>T</span><span>U</span><span>V</span><span>W</span><span>X</span><span>Y</span><span>Z</span></div>
+                <span class="pin" style="left:-6px;top:-8px">1</span>
+                <span class="pin" style="left:75%;top:60px">2</span>
+                <span class="pin" style="right:-6px;bottom:72px">3</span>
+              </div>
+            </div>
+          </div>
+        </div></div>
+        <div class="pin-notes"><div><b>1</b>Ten toolbar buttons and a saved view to pick before you see a single deal.</div><div><b>2</b>The context that matters, cut off mid-sentence in a column you can't read.</div><div><b>3</b>More columns off to the side, and no quick read on where each deal stands.</div></div>
+      </div>
+      <div>
+        <div class="ba-label"><span class="ba-tag" style="background:var(--midnight);color:#fff;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:999px">After</span><h3>Every deal where it stands, updated in plain words</h3><span>The same Dynamics data, as a board. Changes save straight back.</span></div>
+        <div class="win-scroll"><div class="win" aria-hidden="true">
+          <div class="win-bar"><i></i><i></i><i></i><span class="url">Skydive CRM · connected to your Dynamics 365 Sales</span></div>
+          <div class="sk-app">
+            <div class="sk-bar"><b>Pipeline</b><span>7 open · $955K</span><span class="sk-tools"><span class="sk-tool"><svg width="12" height="12"><use href="#mic"/></svg>Talk to your data</span><span class="sk-tool">+ Add tasks</span></span></div>
+            <div class="sk-stage">
+            <div class="sk-board">
+                <div class="col"><div class="col-h"><b>Opportunity</b><span>2 · $275K</span></div><div class="cards"><div class="card"><span class="t">Underwriting Workbench</span><span class="a">Crestview Health · <u>Ana Torres</u></span><span class="row"><span>Dec 12 · <span class="pct">25%</span></span><b>$150,000</b></span></div><div class="card"><span class="t">Claims Intake Pilot</span><span class="a">Northgate Casualty · <u>Ben Okafor</u></span><span class="row"><span>Jan 30 · <span class="pct">10%</span></span><b>$125,000</b></span></div></div></div>
+                <div class="col"><div class="col-h"><b>Qualified</b><span>3 · $380K</span></div><div class="cards"><div class="card"><span class="t">Data Platform, Phase 1</span><span class="a">Lakeshore Life · <u>Priya Shah</u></span><span class="row"><span>Apr 6 · <span class="pct">50%</span></span><b>$210,000</b></span></div><div class="card"><span class="t">Policy Admin Renewal</span><span class="a">Harbor State · <u>Marcus Lee</u></span><span class="row"><span>Nov 20 · <span class="pct">60%</span></span><b>$85,000</b></span></div><div class="card"><span class="t">Benefits Eligibility Portal</span><span class="a">Riverbend County · <u>Keisha Grant</u></span><span class="row"><span>Dec 5 · <span class="pct">40%</span></span><b>$85,000</b></span></div></div></div>
+                <div class="col"><div class="col-h"><b>Proposal</b><span>1 · $120K</span></div><div class="cards"><div class="card"><span class="t">Claims Modernization</span><span class="a">Bayline Mutual · <u>Dana Ruiz</u></span><span class="row"><span>Oct 28 · <span class="pct">50%</span></span><b>$120,000</b></span></div></div></div>
+                <div class="col"><div class="col-h"><b>SOW</b><span>1 · $180K</span></div><div class="cards"><div class="card"><span class="t">Contact Center Uplift</span><span class="a">Pinecrest Financial · <u>Laura Kim</u></span><span class="row"><span>Nov 3 · <span class="pct">90%</span></span><b>$180,000</b></span></div></div></div>
+            </div>
+            <div class="sk-modal">
+              <div class="sm-h"><span>Update opportunity</span><b>Claims Modernization</b></div>
+              <div class="sm-b">
+                <div class="sm-sum">Bayline Mutual · Proposal · currently 50% · $120,000 · close Oct 28</div>
+                <div class="sm-f"><label>Probability (%)<span>50</span></label><label>Revenue ($)<span>120000</span></label></div>
+                <label class="sm-l">What's next?<em>Plain words. Claude turns them into field changes and a follow-up task for you to confirm.</em></label>
+                <div class="sm-ta">Pricing landed well. Bump to 70% and remind me to send Dana the revised SOW Friday.</div>
+                <p class="sm-will">Will save: probability 70%, and a task "Send Dana Ruiz the revised SOW" due Fri, Oct 23.</p>
+                <div class="sm-btns"><span class="btn btn-line btn-xs">Cancel</span><span class="btn btn-coral btn-xs">Confirm &amp; save</span></div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+    <div id="ba-mob" role="tabpanel" aria-labelledby="tab-mob">
+    <div class="ba-grid">
+      <div class="ba-side before">
+        <span class="ba-tag">Before</span>
+        <h3>The standard mobile app</h3>
+        <p>Three screens before you can even find the deal.</p>
+        <div class="phones" aria-hidden="true">
+          <div class="phone"><div class="screen scr-load"><span>Loading ...</span><span class="dots"><i></i><i></i><i></i><i></i></span></div></div>
+          <div class="phone"><div class="screen scr-spin"><span class="x">Cancel</span><span class="spinner"></span><span>Sales</span></div></div>
+          <div class="phone"><div class="screen scr-list">
+            <div class="ttl">Open Qualified Opportunities</div>
+            <div class="srch">Search work items</div>
+            <div class="row-i"><span class="av">BM</span><div><b>Bayline Mutual · Dana Ruiz</b><br>Claims Modernization<br><span class="sub">2-Qualified Opp · $120,000.00</span><br><span class="sub">10/28/2026 · 1/5/2027</span></div><div class="task"><span>Follow up with Dana</span><span>Tomorrow</span></div></div>
+            <div class="row-i"><span class="av" style="background:#6B7C8F">HS</span><div><b>Harbor State · Marcus Lee</b><br>Policy Admin Renewal<br><span class="sub">2-Qualified Opp · $85,000.00</span></div></div>
+            <div class="row-i"><span class="av" style="background:#7A3E9D">LL</span><div><b>Lakeshore Life ·</b><br>Data Platform, Phase 1<br><span class="sub">1-Opportunity · ·</span></div></div>
+            <div class="bar"><span>Show As</span><span>Show Chart</span><span>New</span><span>More</span></div>
+          </div></div>
+        </div>
+        <div class="cap"><span><b>1. Sign in</b>Wait for it to load</span><span><b>2. Open the app</b>Wait again</span><span><b>3. Find the deal</b>Scroll, tap, type</span></div>
+      </div>
+      <div class="ba-side after">
+        <span class="ba-tag">After</span>
+        <h3>Skydive on your phone</h3>
+        <p>Your whole pipeline as a board. One tap.</p>
+        <div class="ba-after-phone" aria-hidden="true">
+          <div class="phone sky"><div class="screen m-board">
+            <div class="mb-h"><b>Pipeline</b><span>7 open · $955K</span></div>
+            <div class="m-stages"><span>Opportunity 2</span><span class="on">Qualified 3</span><span>Proposal 1</span><span>SOW 1</span></div>
+            <div class="card"><span class="t">Data Platform, Phase 1</span><span class="a">Lakeshore Life · <u>Priya Shah</u></span><span class="row"><span>Apr 6 · <span class="pct">50%</span></span><b>$210,000</b></span></div>
+            <div class="card"><span class="t">Policy Admin Renewal</span><span class="a">Harbor State · <u>Marcus Lee</u></span><span class="row"><span>Nov 20 · <span class="pct">60%</span></span><b>$85,000</b></span></div>
+            <div class="card"><span class="t">Benefits Eligibility Portal</span><span class="a">Riverbend County · <u>Keisha Grant</u></span><span class="row"><span>Dec 5 · <span class="pct">40%</span></span><b>$85,000</b></span></div>
+            <div class="m-tools"><span><svg width="9" height="9"><use href="#mic"/></svg>Talk to your data</span><span>+ Add tasks</span></div>
+          </div></div>
+        </div>
+        <div class="cap"><span style="width:auto"><b>Open the board</b>Every deal by stage, ready to go</span></div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== MANAGE DEAL FLOW: Kanban view ===== -->
 <section class="flow" id="flow">
   <div class="wrap">
@@ -446,7 +707,7 @@
   <div class="wrap">
     <span class="eyebrow">How it works</span>
     <h2 class="h2">A day in the harness</h2>
-    <p class="lede">Talk it through the way you would with a colleague. Skydive handles the record keeping in Dynamics and nudges you toward the next best move.</p>
+    <p class="lede">Pair the board with the Skydive skill in Claude and talk it through the way you would with a colleague. Skydive handles the record keeping in Dynamics and nudges you toward the next best move.</p>
 
     <div class="moments">
 
@@ -532,6 +793,20 @@
       <div class="theme t2"><h3>Freedom</h3><p>Sellers fly free of clumsy forms and clicks, and get back to selling.</p></div>
       <div class="theme t3"><h3>Intelligence</h3><p>AI that layers onto the CRM to guide the next best action.</p></div>
       <div class="theme t4"><h3>Everywhere</h3><p>On your phone, in Teams, or between meetings. Skydive goes where the conversation happens.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT RUNS ===== -->
+<section class="runs" id="runs">
+  <div class="wrap">
+    <span class="eyebrow">How it runs</span>
+    <h2 class="h2">A pattern you run, not another tool to buy</h2>
+    <p class="lede">Skydive isn't one more SaaS platform for sellers to learn or IT to vet. It's a harness that sits on the Microsoft stack you already have.</p>
+    <div class="flow-points runs-points">
+      <div><h3>Your Dynamics, your data</h3><p>The board reads and writes Dynamics 365 Sales through your own Dataverse connection. Records stay where they live today.</p></div>
+      <div><h3>Hosted where you choose</h3><p>Run it wherever you already host internal apps, next to the Microsoft tools your team uses every day. Nothing new to procure.</p></div>
+      <div><h3>Smarter with Claude</h3><p>The board takes quick updates in plain words. Add Claude Enterprise and the Skydive skill, and sellers can debrief a whole meeting in conversation.</p></div>
     </div>
   </div>
 </section>
@@ -652,6 +927,13 @@
   } else {
     reveals.forEach(el => el.classList.add('in'));
   }
+
+  // Before/after tabs
+  const tabs=[...document.querySelectorAll('.ba-tab')];
+  const showTab=(t)=>{tabs.forEach(b=>{const on=b===t;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;document.getElementById(b.getAttribute('aria-controls')).hidden=!on;});};
+  tabs.forEach(b=>b.addEventListener('click',()=>showTab(b)));
+  tabs.forEach((b,i)=>b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];n.focus();showTab(n);}}));
+  if(tabs.length) showTab(tabs[0]);
 
   const form = document.getElementById('demo-form');
   const statusEl = document.getElementById('form-status');
