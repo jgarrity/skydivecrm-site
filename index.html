@@ -329,7 +329,7 @@
   .theme p{font-size:16px;line-height:1.5}
   .theme.t1{background:var(--midnight);color:#fff}.theme.t1 p{color:var(--on-dark)}
   .theme.t2{background:var(--sky)}
-  .theme.t3,.theme.t4{background:var(--haze);border:1px solid var(--line)}.theme.t3 p,.theme.t4 p{color:var(--slate)}
+  .theme.t3{background:var(--sky-light)}.theme.t3 p{color:var(--midnight)}.theme.t4{background:#fff;border:1px solid var(--line)}.theme.t4 p{color:var(--slate)}
 
   /* Teaser video */
   .teaser{background:var(--haze)}
@@ -465,7 +465,7 @@
     <nav class="nav-links" aria-label="Main">
       <a class="text" href="#flow">Deal flow</a>
       <a class="text" href="#how">How it works</a>
-      <a class="text" href="#teaser">Watch the teaser</a>
+      <a class="text" href="#before-after">Before and after</a>
       <a class="btn btn-coral btn-sm nav-cta" href="#demo"><span class="long">Jump with Skydive CRM!</span><span class="short">Jump in!</span></a>
     </nav>
   </div>
@@ -486,10 +486,7 @@
       <p class="lede">Skydive CRM sits on top of the Dynamics you already own. Your sellers talk it through, and Skydive keeps the CRM current and tells them what to do next. Safe and secure, so they can do their best work.</p>
       <div class="hero-ctas">
         <a class="btn btn-coral" href="#demo">Jump with Skydive CRM!</a>
-        <a class="btn btn-line" href="#teaser">
-          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
-          Watch the free teaser
-        </a>
+        <a class="btn btn-line" href="#before-after">See the before and after</a>
       </div>
       <p class="hero-note">Works with your existing Microsoft Dynamics. No migration.</p>
     </div>
@@ -812,7 +809,7 @@
 </section>
 
 <!-- ===== TEASER VIDEO ===== -->
-<section class="teaser" id="teaser">
+<section class="teaser" id="teaser" hidden>
   <div class="wrap">
     <div>
       <span class="eyebrow">Free teaser</span>
@@ -853,17 +850,17 @@
     <div>
       <span class="eyebrow">The full demo</span>
       <h2 style="margin-top:14px">Jump with <em>Skydive CRM!</em></h2>
-      <p class="lede">Get the full demo video and see how Skydive CRM can work in your Dynamics ecosystem, end to end.</p>
+      <p class="lede">Get a full demo and see how Skydive CRM can work in your Dynamics ecosystem, end to end.</p>
       <div class="vig reveal" role="img" aria-label="Example: Skydive offers the full demo">
         <div class="vig-head"><svg width="27" height="18" aria-hidden="true"><use href="#mark"/></svg><b>Skydive</b><span class="when">Now</span></div>
-        <div class="bubble sky">Ready when you are. Tell me where to send the full demo and I'll take it from there.</div>
+        <div class="bubble sky">Ready when you are. Tell us a little about you and we'll set up a full demo.</div>
       </div>
     </div>
 
     <div class="form-card">
       <form id="demo-form" novalidate>
-        <h3>Send me the full demo</h3>
-        <p class="sub">Tell us a little about you and we'll get it to you right away.</p>
+        <h3>Request a full demo</h3>
+        <p class="sub">Send us a quick note and we'll set up a time to walk you through it.</p>
         <div class="fields">
           <div class="field"><label for="fname">First name</label><input id="fname" name="first_name" autocomplete="given-name" required></div>
           <div class="field"><label for="lname">Last name</label><input id="lname" name="last_name" autocomplete="family-name" required></div>
@@ -881,16 +878,16 @@
           </div>
           <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
-        <button class="btn btn-coral" type="submit">Send me the full demo</button>
+        <button class="btn btn-coral" type="submit">Email us for a demo</button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        <p class="fine">We'll use your details only to send the demo and follow up about Skydive CRM.</p>
+        <p class="fine">This opens an email to <a href="mailto:websales@singlestoneconsulting.com">websales@singlestoneconsulting.com</a> with your details filled in.</p>
       </form>
 
       <div class="thanks" id="thanks" tabindex="-1">
         <h3>You're cleared to jump.</h3>
-        <p>Thanks! Your full demo is ready.</p>
-        <a class="btn btn-coral" id="demo-link" href="#" target="_blank" rel="noopener" style="margin-top:22px">Watch the full demo</a>
-        <p class="fine">We've also noted your request, so someone may reach out to talk about your Dynamics setup.</p>
+        <p>Your email should be open and ready to send. Hit send and we'll be in touch to set up your demo.</p>
+        <a class="btn btn-coral" id="demo-link" href="mailto:websales@singlestoneconsulting.com" style="margin-top:22px">Email didn't open? Write to us</a>
+        <p class="fine">Or write directly to websales@singlestoneconsulting.com.</p>
       </div>
     </div>
   </div>
@@ -911,8 +908,7 @@
 
 <script>
   /* ============ SETTINGS: fill these two in ============ */
-  const FORM_ENDPOINT = "";   // e.g. "https://formspree.io/f/abcdwxyz"
-  const FULL_DEMO_URL = "";   // e.g. an unlisted Vimeo/YouTube link to the full demo
+  const DEMO_EMAIL = "websales@singlestoneconsulting.com";   // demo requests open an email to this address
   /* ===================================================== */
 
   document.getElementById('yr').textContent = new Date().getFullYear();
@@ -939,27 +935,27 @@
   const statusEl = document.getElementById('form-status');
   const thanks = document.getElementById('thanks');
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     const required = [...form.querySelectorAll('[required]')];
     const missing = required.find(el => !el.value.trim());
     if (missing) { statusEl.textContent = 'Please fill in your name, work email, and company.'; missing.focus(); return; }
     if (!form.email.checkValidity()) { statusEl.textContent = 'Please enter a valid work email.'; form.email.focus(); return; }
 
-    if (!FORM_ENDPOINT) { statusEl.textContent = 'Demo signup is being set up. Please check back shortly.'; return; }
-
-    statusEl.textContent = 'Sending...';
-    try {
-      const res = await fetch(FORM_ENDPOINT, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
-      if (!res.ok) throw new Error();
-      form.style.display = 'none';
-      if (FULL_DEMO_URL) document.getElementById('demo-link').href = FULL_DEMO_URL;
-      else document.getElementById('demo-link').style.display = 'none';
-      thanks.classList.add('show');
-      thanks.focus();
-    } catch {
-      statusEl.textContent = 'Something went wrong. Please try again in a moment.';
-    }
+    const v = (n) => (form.elements[n] && form.elements[n].value.trim()) || '';
+    const subject = 'Skydive CRM demo request' + (v('company') ? ': ' + v('company') : '');
+    const body = [
+      'Hello,', '', "I'd like to see a full demo of Skydive CRM.", '',
+      'Name: ' + v('first_name') + ' ' + v('last_name'),
+      'Email: ' + v('email'),
+      'Company: ' + v('company'),
+      'Role: ' + (v('role') || '-'),
+      'Dynamics today: ' + (v('dynamics') || '-'), ''
+    ].join('\n');
+    window.location.href = 'mailto:' + DEMO_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    form.style.display = 'none';
+    thanks.classList.add('show');
+    thanks.focus();
   });
 </script>
 </body>
