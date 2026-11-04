@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Google tag (GA4) -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-NH94FL6S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Skydive CRM | Trust the harness. Fly free.</title>
@@ -952,10 +959,20 @@
       'Role: ' + (v('role') || '-'),
       'Dynamics today: ' + (v('dynamics') || '-'), ''
     ].join('\n');
+    if (window.gtag) gtag('event', 'generate_lead', { form_name: 'demo_request', dynamics: v('dynamics') || 'not set' });
     window.location.href = 'mailto:' + DEMO_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     form.style.display = 'none';
     thanks.classList.add('show');
     thanks.focus();
+  });
+
+  // Analytics: CTA and email clicks
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a || !window.gtag) return;
+    const href = a.getAttribute('href') || '';
+    if (href === '#demo') gtag('event', 'cta_click', { cta_text: a.textContent.trim(), cta_location: (a.closest('header,section,footer') || {}).id || a.className });
+    else if (href.startsWith('mailto:')) gtag('event', 'email_click', { link_id: a.id || 'mailto' });
   });
 </script>
 </body>
