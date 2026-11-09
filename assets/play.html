@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (GA4) -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-NH94FL6S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Skydive Path | Skydive CRM</title>
+<meta name="description" content="A retro skydiving game from Skydive CRM. Dodge CRM friction, grab next best actions, make the calls, and land on Closed Won.">
+<meta property="og:title" content="The Skydive Path">
+<meta property="og:description" content="Dodge CRM friction and land on Closed Won. A retro game from Skydive CRM.">
+<meta property="og:url" content="https://skydivecrm.com/play.html">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0B0A12">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+<style>
+  /* Layout: an early-80s home console. Header stripes, a wide pixel banner (320x128 scaled up), a text "path" console under it, then an up/down pad. Single dark look by choice. */
+  :root{
+    --bg:#0B0A12; --panel:#000000; --bezel:#2A2433; --amber:#FCE45C; --orange:#E8762C; --red:#C83C3C;
+    --cyan:#7CD8F0; --white:#F2F2F2; --dim:#8C88A4; --coral:#FF6B4A; --green:#5CC85C;
+    --pix:'Press Start 2P',ui-monospace,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{min-height:100%}
+  body{background:var(--bg);color:var(--white);font-family:var(--pix);font-size:11px;line-height:1.7}
+  .wrap{max-width:1040px;margin:0 auto;padding-block:20px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:14px}
+
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  h1{margin:0;font-size:clamp(20px,4.4vw,34px);line-height:1;letter-spacing:.04em;color:var(--white);text-shadow:3px 3px 0 var(--red)}
+  .stripes{display:grid;gap:3px;margin-top:10px;width:min(260px,60vw)}
+  .stripes i{display:block;height:4px}
+  .stripes i:nth-child(1){background:var(--amber)}.stripes i:nth-child(2){background:var(--orange)}.stripes i:nth-child(3){background:var(--red)}.stripes i:nth-child(4){background:#8C3CB4}
+  .sub{margin:0;color:var(--dim);font-size:10px;text-align:right}
+  .sub b{color:var(--amber);font-weight:400}
+
+  .bezel{background:var(--bezel);padding:10px;border-radius:6px;box-shadow:inset 0 0 0 2px #3A3346,0 18px 40px -20px #000}
+  .screenbox{position:relative;line-height:0}
+  canvas{display:block;width:100%;height:auto;aspect-ratio:320/128;image-rendering:pixelated;image-rendering:crisp-edges;background:#000;touch-action:none;cursor:pointer}
+  .screenbox::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px)}
+
+  .console{background:var(--panel);border:2px solid var(--bezel);padding:14px 16px;display:grid;gap:12px}
+  .meters{display:flex;flex-wrap:wrap;gap:10px 22px}
+  .meter{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--dim)}
+  .segs{display:flex;gap:2px}
+  .segs i{width:8px;height:10px;background:#221E2C}
+  .segs i.on{background:var(--cyan)}
+  .meter.fr .segs i.on{background:var(--coral)}
+  .screen{display:grid;gap:10px;min-height:150px;align-content:start}
+  .screen p{margin:0}
+  .y{color:var(--amber)} .c{color:var(--cyan)} .o{color:var(--coral)} .d{color:var(--dim)} .g{color:var(--green)}
+  .big{font-size:13px;line-height:1.6}
+  .menu{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .opt{width:100%;display:flex;gap:10px;text-align:left;font:inherit;font-size:11px;line-height:1.6;color:var(--white);background:transparent;border:0;padding:6px 8px;cursor:pointer}
+  .opt .cur{color:transparent;flex:none}
+  .opt small{display:block;color:var(--dim);font-size:9px;margin-top:2px}
+  .opt[aria-selected="true"]{background:var(--amber);color:#000}
+  .opt[aria-selected="true"] .cur{color:#000}
+  .opt[aria-selected="true"] small{color:#3A3000}
+  .opt:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+  .tomb{white-space:pre;font-size:10px;line-height:1.35;color:var(--dim);overflow-x:auto}
+  .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 16px}
+  .stats div{display:grid;gap:2px;min-width:0}
+  .stats span{font-size:8px;color:var(--dim)}
+  .stats b{font-weight:400;color:var(--amber);font-size:11px}
+  .log{display:grid;gap:6px;align-content:start}
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .mode{font:inherit;font-size:10px;line-height:1.6;text-align:left;cursor:pointer;background:#0E0C16;color:var(--white);border:3px solid #3A3346;padding:14px;display:grid;gap:8px;align-content:start}
+  .mode:hover{border-color:#6A6080}
+  .mode[aria-selected="true"]{border-color:var(--amber);background:#1C1806;box-shadow:0 0 0 3px rgba(252,228,92,.2)}
+  .mode:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+  .mode h3{margin:0;font-size:13px;line-height:1.5;font-weight:400}
+  .tag{justify-self:start;font-size:10px;padding:5px 8px;color:#000}
+  .tag.hard{background:#E8584C}.tag.easy{background:var(--green)}
+  .mini{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:9px}
+  .mini .segs i.on{background:var(--coral)}
+  .sel{color:var(--amber);visibility:hidden}
+  .mode[aria-selected="true"] .sel{visibility:visible}
+  @media (max-width:560px){.modes{grid-template-columns:1fr}.mode h3{font-size:11px}}
+  .modes.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tag.mid{background:var(--amber)}
+  .link{justify-self:start;font:inherit;font-size:10px;color:var(--cyan);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+  .link:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+  @media (max-width:700px){.modes.three{grid-template-columns:1fr}}
+  .legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px}
+  .legend span{display:inline-block;width:22px}
+  .r{color:#E8584C}
+  @media (max-width:560px){.legend{grid-template-columns:1fr}}
+  .log p:not(:last-child){color:var(--dim)}
+
+  .pad{display:grid;grid-template-columns:1fr auto 1fr;gap:10px}
+  .pad button{font:inherit;font-size:12px;min-height:56px;border:0;border-radius:6px;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:inset 0 -5px 0 rgba(0,0,0,.35)}
+  .pad .dir{background:#3A3346;color:var(--white)}
+  .pad .dir:active,.pad .dir.held{background:#544A66}
+  .pad .ok{background:var(--red);color:var(--white);padding:0 22px}
+  .pad .ok:active{background:#E0504A}
+  .pad button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  body{margin:0}
+  .home{color:var(--cyan);text-decoration:none}.home:hover{color:var(--amber)}
+  .plug{color:var(--cyan)}.plug:hover{color:var(--amber)}
+  .foot{margin:0;color:var(--dim);font-size:9px;text-align:center}
+
+  @media (max-width:560px){
+    body{font-size:10px}
+    .console{padding:12px}
+    .stats{grid-template-columns:1fr 1fr}
+    .big{font-size:11px}
+    .opt{font-size:10px}
+    .sub{text-align:left}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>SKYDIVE</h1>
+      <div class="stripes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <p class="sub"><a class="home" href="index.html">&larr; SKYDIVE CRM</a><br>THE PATH TO <b>CLOSED WON</b><br>1 PLAYER · ▲▼ ONLY</p>
+  </header>
+
+  <div class="bezel">
+    <div class="screenbox"><canvas id="c" width="320" height="128" aria-label="Skydive game screen. Use up and down to dodge friction."></canvas></div>
+  </div>
+
+  <section class="console" aria-live="polite">
+    <div class="meters" id="meters">
+      <div class="meter"><span>CONTEXT</span><span class="segs" id="m-ctx"></span></div>
+      <div class="meter"><span>COMMS</span><span class="segs" id="m-com"></span></div>
+      <div class="meter fr"><span>FRICTION</span><span class="segs" id="m-fr"></span></div>
+    </div>
+    <div class="screen" id="screen"></div>
+  </section>
+
+  <div class="pad">
+    <button class="dir" id="b-up" aria-label="Up">▲ UP</button>
+    <button class="ok" id="b-ok">START</button>
+    <button class="dir" id="b-dn" aria-label="Down">▼ DOWN</button>
+  </div>
+  <p class="foot">KEYS: ▲▼ OR W/S · SPACE OR ENTER TO SELECT · 1 2 3 FOR DECISIONS</p>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const cvs = $('c'), g = cvs.getContext('2d');
+  g.imageSmoothingEnabled = false;
+  const VW = 320, VH = 128, TOP = 12, GROUND = 114, PX = 56;
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FONT = '8px "Press Start 2P", monospace';
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const money = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(2) + 'M' : '$' + Math.round(v / 1000) + 'K';
+  const ft = v => String(Math.max(0, Math.round(v / 10) * 10));
+  const sgn = v => (v > 0 ? '+' : v < 0 ? '-' : '±') + Math.abs(v);
+  const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[ch]));
+
+  const BRICKS = ['LOADING','SIGN IN','REQUIRED','DUP RECORD','EXCEL','PICK VIEW','TIMEOUT','DROPDOWN','REFRESH'];
+  const POPS = ['WAIT','ERROR','SAVE?','OOPS'];
+
+  const DECKS = [
+    { title:'A VOICEMAIL', text:'Dana left a six-minute voicemail about budget timing.', opts:[
+      { t:'Debrief it to Skydive on the walk to your car.', c:15, m:5, out:'Logged in 40 seconds. It even caught the board date.' },
+      { t:'Plan to type it into Dynamics tonight.', c:-5, m:0, out:'Tonight came and went. The note never made it in.' },
+      { t:'Forward it to your manager with "fyi."', c:-10, m:5, out:'Your manager now has questions. So do you.' } ]},
+    { title:'FORECAST CALL', text:'Your VP wants a forecast update before the noon call.', opts:[
+      { t:'Share the pipeline board.', c:10, m:10, out:'Everyone saw the same numbers. The call ended early.' },
+      { t:'Export four views to Excel and reconcile them.', c:0, m:-10, out:'Three versions of the truth. You picked one.' },
+      { t:'Round up and hope.', c:-15, m:0, out:'The forecast now counts on things nobody said.' } ]},
+    { title:'NEW FACE', text:'A new CFO, Priya, joins the Lakeshore call.', opts:[
+      { t:'Add her as a contact and note what she cares about.', c:15, m:0, out:'Priya is on the deal, and so are her priorities.' },
+      { t:'Mention her in a Teams chat.', c:-5, m:10, out:'Your team knows. Dynamics does not.' },
+      { t:'Wait and see if she matters.', c:-10, m:-5, out:'She mattered.' } ]},
+    { title:'POP-UP', text:'A pop-up blocks your save: CLIENT NEED is required.', opts:[
+      { t:'Let Skydive fill it from your meeting notes.', c:10, m:5, out:'Filled in, in your words. Saved.' },
+      { t:'Type "TBD."', c:-10, m:0, out:'"TBD" is now the client need on 14 opportunities.' },
+      { t:'Close the tab.', c:-15, m:-5, out:'Nothing saved. The data entry won this round.' } ]},
+    { title:'QUIET CHAMPION', text:'Marcus at Harbor State has not heard from you in 12 days.', opts:[
+      { t:'Send the check-in Skydive drafted.', c:5, m:15, out:'Marcus replied within the hour. The renewal is on track.' },
+      { t:'Send "just checking in."', c:-5, m:0, out:'Marcus left you on read.' },
+      { t:'Wait for him to reach out.', c:0, m:-15, out:'The silence got louder.' } ]},
+    { title:'THE HANDOFF', text:'Delivery asks what you actually sold.', opts:[
+      { t:'Share the account plan, notes and all.', c:10, m:10, out:'They started on day one with the full story.' },
+      { t:'Book an hour to explain it from memory.', c:-5, m:5, out:'Most of it came back to you. Most.' },
+      { t:'Point them to the SOW.', c:0, m:-10, out:'They read the SOW. They have follow-up questions.' } ]},
+    { title:'BACK TO BACK', text:'Four meetings in a row. No time to log any of them.', opts:[
+      { t:'Talk through all four on the drive home.', c:15, m:0, out:'Four meetings, logged before you hit the driveway.' },
+      { t:'Skip logging this week.', c:-15, m:0, out:'By Friday the week was a blur.' },
+      { t:'Ask a coordinator to type up your notes.', c:5, m:-5, out:'The notes are in. Your coordinator is less happy.' } ]},
+    { title:'DEAL REVIEW', text:'Your manager asks why the Bayline close date moved three times.', opts:[
+      { t:'Pull the history and the reason from the record.', c:10, m:10, out:'The reason was right there. Review over in five minutes.' },
+      { t:'Say "the client pushed it."', c:-5, m:-5, out:'True, probably. Nobody can say why.' },
+      { t:'Change the date again before the meeting.', c:-15, m:-5, out:'Fourth time is not the charm.' } ]}
+  ];
+
+  // ---------- sprites ----------
+  const PAL = { S:'#48A8E8', V:'#7C6CF0', O:'#FF6B4A', l:'#C8C8D8', H:'#FF6B4A', J:'#FCE45C', K:'#000000', M:'#D8D8E0', W:'#3C80CC', G:'#5C5C74', T:'#FF6B4A', P:'#8C88A4', X:'#FFFFFF' };
+  const SPR = {
+    canopy: [
+      '...SSSSSSV..',
+      '.SSSSSSSSVVO',
+      'SS........VV',
+      '.l........l.',
+      '..l......l..',
+      '...l....l...',
+      '....lHHl....',
+      '.....KK.....',
+      '....JJJJ....',
+      '.....JJ.....',
+      '....J..J....',
+      '....J..J....'],
+    free: [
+      'J........J',
+      '.J..HH..J.',
+      '..J.KK.J..',
+      '...JJJJ...',
+      '....JJ....',
+      '...J..J...',
+      '..J....J..',
+      '.J......J.'],
+    plane: [
+      'TT........................',
+      'TTT.......................',
+      'TTTTMMMMMMMMMMMMMMMMMMMM..',
+      '.MMMMWMMWMMWMMWMMWMMMMMMMP',
+      '..MMMMMMMMMMMMMMMMMMMMMM.P',
+      '..........GGGGGGG.........'],
+    check: [
+      '.OOOOO.',
+      'OOOOOXO',
+      'OOOOXOO',
+      'OXOXOOO',
+      'OOXOOOO',
+      '.OOOOO.']
+  };
+  function spr(rows, x, y){
+    x = Math.round(x); y = Math.round(y);
+    for (let r = 0; r < rows.length; r++) for (let c = 0; c < rows[r].length; c++) {
+      const ch = rows[r][c]; if (ch === '.') continue;
+      g.fillStyle = PAL[ch]; g.fillRect(x + c, y + r, 1, 1);
+    }
+  }
+  function text(s, x, y, color, align){
+    g.font = FONT; g.textBaseline = 'top'; g.textAlign = align || 'left'; g.fillStyle = color; g.fillText(s, Math.round(x), Math.round(y));
+  }
+
+  // ---------- state ----------
+  const DEALS = [
+    { tag:'SHORT', cls:'easy', name:'$300K DEAL', v:300000, alt:6500, gates:[4500, 2500], desc:'6,500 FT JUMP. 2 DECISIONS.' },
+    { tag:'MEDIUM', cls:'mid', name:'$600K DEAL', v:600000, alt:10000, gates:[7500, 5000, 2500], desc:'10,000 FT JUMP. 3 DECISIONS.' },
+    { tag:'LONG', cls:'hard', name:'$1M DEAL', v:1000000, alt:13500, gates:[11000, 8000, 5000, 2500], desc:'13,500 FT JUMP. 4 DECISIONS.' }
+  ];
+  let dealIdx = 0;
+  let mode = 'intro', rig = 1, S = null, best = 0, menu = null, logLines = [], trained = false;
+  try { best = +localStorage.getItem('skydive-trail-best') || 0; } catch (e) {}
+  const keys = { up:false, down:false };
+  const clouds = Array.from({ length: 7 }, () => ({ x: rand(0, VW), y: rand(TOP + 4, 80), w: Math.round(rand(14, 30)), z: rand(.25, .6) }));
+  let scroll = 0;
+
+  const friction = () => clamp(100 - (S.ctx + S.comms) / 2, 5, 95);
+
+  function newGame(){
+    const plain = rig === 0;
+    const deal = DEALS[dealIdx];
+    S = { phase:'drop', t:0, deal, decN:0, alt:deal.alt, ctx: plain ? 30 : 64, comms: plain ? 30 : 60, harness: plain ? 3 : 5, maxH: plain ? 3 : 5, score:0, mult: plain ? 2 : 1,
+      py:20, px:22, inv:0, planeX:-30, dropped:false, dropT:0, obs:[], picks:[], spawnT:1.4, pickT:2.2,
+      tut:3, tutT:0, moved:0, tutGot:false,
+      gates: deal.gates.slice(), deck: shuffle(DECKS.slice()), passed:0, grabbed:0, lastHit:'', zone:null, cur:null, flash:0, deadT:0 };
+    mode = 'play'; logLines = []; menu = null;
+    if (window.gtag) gtag('event', 'game_start', { rig: plain ? 'as_is' : 'skydive' });
+    log('The plane climbs to ' + ft(deal.alt) + ' feet. You are jumping for a ' + deal.name.toLowerCase().replace('deal', 'deal') + '.');
+  }
+  function add(v){ S.score += v * S.mult; }
+  function log(t){ logLines.push(t); if (logLines.length > 3) logLines.shift(); if (mode === 'play' && (!S || S.phase !== 'decision')) renderLog(); }
+
+  // ---------- console rendering ----------
+  const scr = $('screen');
+  function setMenu(items, onPick, sel){
+    menu = { items, onPick, sel: sel || 0 };
+    const ul = document.createElement('ul'); ul.className = 'menu'; ul.setAttribute('role', 'listbox');
+    items.forEach((it, i) => {
+      const li = document.createElement('li'); const b = document.createElement('button');
+      b.className = 'opt'; b.id = 'opt-' + i; b.setAttribute('role', 'option');
+      b.innerHTML = '<span class="cur">&gt;</span><span>' + esc(it.label) + (it.note ? '<small>' + esc(it.note) + '</small>' : '') + '</span>';
+      b.addEventListener('click', () => { menu.sel = i; paintMenu(); onPick(i); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    scr.appendChild(ul); paintMenu();
+  }
+  function paintMenu(){ if (!menu) return; menu.items.forEach((_, i) => { const b = $('opt-' + i); if (b) b.setAttribute('aria-selected', i === menu.sel); }); if (menu.onSel) menu.onSel(menu.sel); }
+  function moveMenu(d){ if (!menu) return; menu.sel = (menu.sel + d + menu.items.length) % menu.items.length; paintMenu(); }
+
+  function card(i, tag, cls, title, lines){
+    return '<button class="mode" id="opt-' + i + '" role="option"><span class="tag ' + cls + '">' + tag + '</span><h3>' + title + '</h3>' + lines.join('') + '<span class="sel">&#9654; SELECTED</span></button>';
+  }
+  function bindCards(n, onPick, sel, onSel){
+    menu = { items: Array(n).fill(0), sel, onPick, onSel };
+    for (let i = 0; i < n; i++) $('opt-' + i).addEventListener('click', () => { if (menu.sel === i) menu.onPick(i); else { menu.sel = i; paintMenu(); } });
+    paintMenu();
+  }
+  function renderIntro(){
+    mode = 'intro'; S = null; $('b-ok').textContent = 'NEXT';
+    scr.innerHTML = '<p class="big y">1. PICK THE DEAL YOU ARE JUMPING FOR</p><div class="modes three" role="listbox" aria-label="Deal size">' +
+      DEALS.map((d, i) => card(i, d.tag, d.cls, d.name, ['<span class="d">' + d.desc + '</span>'])).join('') + '</div>' +
+      '<p class="d">BIGGER DEAL, LONGER JUMP. &#9650;&#9660; TO SWITCH. TAP A CARD TO PICK IT, TAP AGAIN FOR NEXT.</p>' +
+      '<div class="legend"><p><span class="y">&#9650;&#9660;</span>STEER. THAT IS ALL.</p><p><span class="o">&#10003;</span>NEXT BEST ACTION. ADDS CONTEXT.</p><p><span class="r">&#9632;</span>FRICTION. COSTS A HARNESS STRAP.</p><p><span class="c">?</span>DECISIONS ON THE WAY DOWN.</p></div>' +
+      (best ? '<p class="c">BEST SCORE: ' + money(best) + '</p>' : '');
+    bindCards(DEALS.length, i => { dealIdx = i; renderModes(); }, dealIdx, i => { dealIdx = i; });
+  }
+  function renderModes(){
+    mode = 'intro'; S = null; $('b-ok').textContent = 'START';
+    const M = [
+      { tag:'HARD', cls:'hard', name:'DYNAMICS, AS-IS', f:70, desc:'FASTER FLOW. MORE OBSTACLES.', st:'3 HARNESS STRAPS. POINTS X2.' },
+      { tag:'EASY', cls:'easy', name:'DYNAMICS + SKYDIVE HARNESS', f:38, desc:'CALMER AIR. WIDER GAPS.', st:'5 HARNESS STRAPS. POINTS X1.' }
+    ];
+    scr.innerHTML = '<p class="o">' + DEALS[dealIdx].name + ' &middot; ' + DEALS[dealIdx].desc + '</p><p class="big y">2. CHOOSE YOUR MODE</p><div class="modes" role="listbox" aria-label="Game mode">' +
+      M.map((m, i) => { const on = Math.round(m.f / 10);
+        return card(i, m.tag, m.cls, m.name, ['<span class="mini d">START FRICTION <span class="segs">' + '<i class="on"></i>'.repeat(on) + '<i></i>'.repeat(10 - on) + '</span></span>', '<span class="d">' + m.desc + '</span>', '<span class="c">' + m.st + '</span>']); }).join('') + '</div>' +
+      '<p class="big y">3. PRESS START TO JUMP</p>' +
+      (trained ? '' : '<p class="d">YOUR FIRST JUMP STARTS WITH A 10-SECOND TRAINING RUN.</p>') +
+      '<button class="link" id="back">&#9664; CHANGE DEAL</button>';
+    $('back').addEventListener('click', renderIntro);
+    bindCards(2, i => { rig = i; newGame(); }, rig, i => { rig = i; paintMeters(rig ? 64 : 30, rig ? 60 : 30); });
+  }
+  function renderLog(){
+    menu = null; $('b-ok').textContent = 'OK';
+    scr.innerHTML = '<div class="log">' + logLines.map(l => '<p>' + esc(l.toUpperCase()) + '</p>').join('') + '</div>';
+  }
+  function renderDecision(){
+    const d = S.cur;
+    scr.innerHTML = '<p class="o">' + ft(S.alt) + ' FT · DECISION ' + S.decN + ' OF ' + S.deal.gates.length + '</p>' +
+      (S.decN === 1 ? '<p class="d">EACH CHOICE MOVES CONTEXT AND COMMS. LET THEM DROP AND FRICTION RISES: FASTER FLOW, MORE OBSTACLES.</p>' : '') +
+      '<p class="big y">' + esc(d.title) + '</p><p>' + esc(d.text.toUpperCase()) + '</p>';
+    setMenu(d.opts.map((o, i) => ({ label: (i + 1) + '. ' + o.t.toUpperCase() })), choose);
+    $('b-ok').textContent = 'SELECT';
+  }
+  function renderOutcome(o, f0, f1){
+    scr.innerHTML = '<p class="big y">' + esc(S.cur.title) + '</p><p>' + esc(o.out.toUpperCase()) + '</p>' +
+      '<p class="c">CONTEXT ' + sgn(o.c) + ' · COMMS ' + sgn(o.m) + ' · FRICTION ' + f0 + ' → ' + f1 + (f1 < f0 ? ' <span class="g">SMOOTHER AIR</span>' : f1 > f0 ? ' <span class="o">ROUGHER AIR</span>' : '') + '</p>';
+    setMenu([{ label:'CONTINUE THE JUMP' }], resume);
+  }
+
+  const segs = {};
+  ['m-ctx','m-com','m-fr'].forEach(id => { const el = $(id); for (let i = 0; i < 10; i++) el.appendChild(document.createElement('i')); segs[id] = [...el.children]; });
+  let lastM = '';
+  function paintMeters(c, m){
+    const f = clamp(100 - (c + m) / 2, 5, 95);
+    const k = c + '|' + m; if (k === lastM) return; lastM = k;
+    const fill = (id, v) => segs[id].forEach((el, i) => el.classList.toggle('on', i < Math.round(v / 10)));
+    fill('m-ctx', c); fill('m-com', m); fill('m-fr', f);
+  }
+
+  // ---------- decisions ----------
+  function openDecision(){
+    S.phase = 'decision'; S.decN++; keys.up = keys.down = false;
+    const d = S.deck.pop(); S.cur = { ...d, opts: shuffle(d.opts.slice()) };
+    renderDecision();
+  }
+  function choose(i){
+    if (!S || S.phase !== 'decision' || S.cur.done) return;
+    S.cur.done = true;
+    const o = S.cur.opts[i]; const f0 = Math.round(friction());
+    S.ctx = clamp(S.ctx + o.c, 0, 100); S.comms = clamp(S.comms + o.m, 0, 100);
+    const f1 = Math.round(friction()); if (f1 < f0) add(15000);
+    logLines = [o.out];
+    renderOutcome(o, f0, f1);
+  }
+  function resume(){
+    S.phase = 'run'; S.inv = Math.max(S.inv, 1.2);
+    S.obs = S.obs.filter(o => o.x > PX + 40 || o.x + o.w < PX - 4);
+    renderLog();
+  }
+
+  // ---------- update ----------
+  function hurt(label){
+    if (S.inv > 0) return;
+    if (S.tut < 3) { S.inv = 1; S.flash = RM ? 0 : .15; log('That was friction. Once training ends, it costs a harness strap.'); return; }
+    S.harness--; S.inv = 2; S.flash = RM ? 0 : .15; S.lastHit = label; S.ctx = clamp(S.ctx - 3, 0, 100);
+    if (S.harness <= 0) { S.phase = 'dead'; S.deadT = 0; log('Hit ' + label + '. The harness gave out.'); return; }
+    log('Hit ' + label + '. Lost a harness strap. ' + S.harness + ' left.');
+  }
+  function tutorial(dir, dt){
+    S.tutT += dt;
+    if (S.tut === 0) {
+      if (dir) S.moved += dt;
+      if (S.moved > 0.35 || S.tutT > 5) {
+        S.tut = 1; S.tutT = 0;
+        S.picks.push({ x: VW + 2, y: Math.round(clamp(S.py < 62 ? S.py + 26 : S.py - 26, TOP + 14, GROUND - 12)), hint:'GRAB IT', tut:true });
+        log('Coral checkmarks are next best actions. Steer into one.');
+      }
+    } else if (S.tut === 1) {
+      const k = S.picks.find(p => p.tut);
+      if (!k || k.x < PX - 30) {
+        if (!S.tutGot) log('Missed it. Next best actions add context and lower friction.');
+        S.tut = 2; S.tutT = 0;
+        S.obs.push({ type:'brick', x: VW + 2, w: 70, h: 12, y: Math.round(clamp(S.py - 6, TOP + 14, GROUND - 16)), label:'FRICTION', hint:'DODGE IT', tut:true });
+        log('Red blocks are friction. Steer around this one.');
+      }
+    } else if (S.tut === 2) {
+      const o = S.obs.find(p => p.tut);
+      if (!o || o.passed) { S.tut = 3; trained = true; S.spawnT = 1.2; S.pickT = 2; log('Training done. Low context and comms mean more friction. Watch the meters.'); }
+    }
+  }
+  const overlap = (ax, ay, aw, ah, bx, by, bw, bh) => ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
+
+  function update(dt){
+    S.t += dt; S.flash = Math.max(0, S.flash - dt);
+    if (S.phase === 'drop') {
+      S.planeX += 70 * dt;
+      if (!S.dropped && S.planeX >= 4) { S.dropped = true; S.px = S.planeX + 6; S.py = 22; log('You jumped. ' + ft(S.alt) + ' feet to the drop zone.'); }
+      if (S.dropped) {
+        S.dropT += dt;
+        S.px += (PX - S.px) * Math.min(1, dt * 2); S.py += (60 - S.py) * Math.min(1, dt * 1.8);
+        if (S.dropT > 1.8) {
+          S.phase = 'run'; S.px = PX;
+          if (trained) { S.tut = 3; log('Canopy open. Dodge the friction.'); }
+          else { S.tut = 0; S.tutT = 0; log('Canopy open. Training run: press up or down to steer.'); }
+        }
+      }
+      scroll += 10 * dt;
+      return;
+    }
+    if (S.phase === 'dead') {
+      S.deadT += dt; S.py += 70 * dt; scroll += 8 * dt;
+      if (S.deadT > 1.2 || S.py > GROUND) finish(false);
+      return;
+    }
+    if (S.planeX < VW + 40) S.planeX += 70 * dt;
+    const f = friction();
+    const speed = 42 * (0.8 + f / 120) * (S.phase === 'land' ? Math.max(0, 1 - S.t * 0) : 1);
+    if (S.phase === 'land') {
+      S.py += 34 * dt; scroll += speed * 0.4 * dt;
+      if (S.zone) S.zone.x -= speed * 0.4 * dt;
+      if (S.py >= GROUND - 6) { S.py = GROUND - 6; finish(true); }
+      return;
+    }
+    scroll += speed * dt;
+    const dir = (keys.down ? 1 : 0) - (keys.up ? 1 : 0);
+    S.py = clamp(S.py + dir * 80 * dt, TOP + 7, GROUND - 7);
+    S.inv = Math.max(0, S.inv - dt);
+    if (S.tut < 3) tutorial(dir, dt); else S.alt -= 180 * dt;
+    if (S.gates.length && S.alt <= S.gates[0]) { S.gates.shift(); openDecision(); return; }
+
+    if (S.alt > 800 && S.tut >= 3) {
+      S.spawnT -= dt;
+      if (S.spawnT <= 0) {
+        S.spawnT = 2.3 - f * 0.01;
+        const r = Math.random();
+        if (r < 0.45) { const top = Math.random() < .5, h = Math.round(rand(20, 26 + f * 0.25)); S.obs.push({ type:'pillar', x: VW + 2, w: 10, y: top ? TOP : GROUND - h, h, label:'A WALL OF FIELDS' }); }
+        else { const label = pick(BRICKS), w = label.length * 8 + 6; S.obs.push({ type:'brick', x: VW + 2, w, h: 12, y: Math.round(rand(TOP + 4, GROUND - 16)), label }); }
+        if (Math.random() < f / 260) S.obs.push({ type:'pop', x: VW + 30, w: 40, h: 22, y: rand(TOP + 4, GROUND - 26), vy: rand(14, 26) * (Math.random() < .5 ? -1 : 1), label: pick(POPS) });
+      }
+      S.pickT -= dt;
+      if (S.pickT <= 0) { S.pickT = rand(1.5, 2.5); S.picks.push({ x: VW + 2, y: Math.round(rand(TOP + 6, GROUND - 12)) }); }
+    }
+    if (!S.zone && S.alt <= 500) S.zone = { x: PX + speed * (S.alt / 180) - 8 };
+    if (S.zone) S.zone.x -= speed * dt;
+
+    const bx = PX - 4, by = S.py - 4, bw = 8, bh = 9;
+    for (const o of S.obs) {
+      o.x -= speed * (o.type === 'pop' ? 1.15 : 1) * dt;
+      if (o.type === 'pop') { o.y += o.vy * dt; if (o.y < TOP + 2 || o.y + o.h > GROUND - 2) o.vy *= -1; }
+      if (!o.passed && o.x + o.w < bx) { o.passed = true; S.passed++; add(5000); }
+      if (!o.passed && overlap(bx, by, bw, bh, o.x, o.y, o.w, o.h)) { hurt(o.type === 'pop' ? 'a pop-up' : o.type === 'pillar' ? 'a wall of fields' : '"' + o.label + '"'); if (S.phase !== 'run') return; }
+    }
+    for (const k of S.picks) {
+      k.x -= speed * dt;
+      if (!k.got && overlap(bx - 2, by - 2, bw + 4, bh + 4, k.x, k.y, 7, 6)) {
+        k.got = true; S.grabbed++; S.ctx = clamp(S.ctx + 4, 0, 100); add(10000);
+        if (k.tut) { S.tutGot = true; log('Nice. That next best action added context. Friction dropped.'); }
+        else if (S.grabbed % 4 === 0 && S.harness < S.maxH) { S.harness++; log('Four next best actions. Harness strap restored.'); }
+        else if (S.grabbed % 4 === 1) log('Next best action grabbed. Context up, friction down.');
+      }
+    }
+    S.obs = S.obs.filter(o => o.x + o.w > -4);
+    S.picks = S.picks.filter(k => k.x > -10 && !k.got);
+    if (S.alt <= 0) { S.alt = 0; S.phase = 'land'; S.t = 0; log('Over the drop zone. Bringing it in.'); }
+  }
+
+  function finish(won){
+    mode = 'end'; S.phase = 'over'; keys.up = keys.down = false;
+    let head;
+    if (won) {
+      const bonus = S.harness * 20000; add(S.deal.v + bonus);
+      head = '<p class="big g">CLOSED WON. THE ' + S.deal.name + ' IS YOURS.</p><p>YOU LANDED IN THE DROP ZONE WITH ' + S.harness + ' OF ' + S.maxH + ' HARNESS STRAPS. STRAP BONUS ' + money(bonus * S.mult) + '.</p>';
+    } else {
+      const c = (s, n) => { s = String(s).toUpperCase().slice(0, n); const l = Math.floor((n - s.length) / 2); return (' '.repeat(l) + s + ' '.repeat(n)).slice(0, n); };
+      head = '<p class="big o">YOU HAVE DIED OF DATA ENTRY. THE ' + S.deal.name + ' SLIPPED TO NEXT QUARTER.</p><p class="tomb">  ______________\n /              \\\n|   HERE LIES    |\n|    A SELLER    |\n|    DIED OF     |\n|' + c(S.lastHit.replace(/"/g, ''), 16) + '|\n|' + c(ft(S.alt) + ' FT', 16) + '|\n|________________|</p>';
+    }
+    const rank = !won ? 'GROUND CREW' : ['WEEKEND JUMPER', 'LICENSED JUMPER', 'HARNESS LEGEND'][DEALS.indexOf(S.deal)];
+    if (window.gtag) gtag('event', 'game_end', { result: won ? 'landed' : 'crashed', score: S.score });
+    const newBest = S.score > best;
+    if (newBest) { best = S.score; try { localStorage.setItem('skydive-trail-best', String(best)); } catch (e) {} }
+    scr.innerHTML = head + '<div class="stats">' + [
+      ['DEAL', S.deal.name.replace(' DEAL', '') + (won ? ' WON' : ' LOST')], ['SCORE', money(S.score)], ['RANK', rank],
+      ['BARRIERS CLEARED', S.passed], ['NEXT BEST ACTIONS', S.grabbed], ['MODE', S.mult > 1 ? 'HARD' : 'EASY']
+    ].map(r => '<div><span>' + r[0] + '</span><b>' + r[1] + '</b></div>').join('') + '</div>' +
+      '<p><a class="plug" href="index.html#demo">TIRED OF FRICTION FOR REAL? JUMP WITH SKYDIVE CRM &rarr;</a></p>' +
+      '<p class="c">' + (newBest ? 'NEW BEST SCORE.' : 'BEST SCORE: ' + money(best)) + '</p>';
+    setMenu([{ label:'JUMP AGAIN' }, { label:'CHANGE DEAL OR MODE' }], i => i === 0 ? newGame() : renderIntro());
+    $('b-ok').textContent = 'SELECT';
+  }
+
+  // ---------- drawing ----------
+  const BANDS = ['#14145C','#1C2478','#243890','#2C4CA4','#3462B4','#3C78C4','#4C90D0','#60A8DC','#78C0E4'];
+  function draw(now){
+    const t = now / 1000;
+    const bh = (GROUND - TOP) / BANDS.length;
+    BANDS.forEach((c, i) => { g.fillStyle = c; g.fillRect(0, Math.round(TOP + i * bh), VW, Math.ceil(bh) + 1); });
+    // clouds
+    g.fillStyle = '#E8F4FC';
+    clouds.forEach(c => {
+      const x = Math.round(((c.x - scroll * c.z) % (VW + 40) + VW + 40) % (VW + 40) - 30);
+      g.fillRect(x, Math.round(c.y), c.w, 4); g.fillRect(x + 4, Math.round(c.y) - 3, Math.round(c.w * .5), 3);
+    });
+    // ground with running dashes
+    g.fillStyle = '#2C7C34'; g.fillRect(0, GROUND, VW, VH - GROUND);
+    g.fillStyle = '#5CB85C'; g.fillRect(0, GROUND, VW, 2);
+    g.fillStyle = '#8C5C2C';
+    for (let x = -((scroll * 1.0) % 24); x < VW; x += 24) g.fillRect(Math.round(x), GROUND + 7, 12, 2);
+    // drop zone
+    if (S && S.zone) {
+      const zx = Math.round(S.zone.x);
+      g.fillStyle = '#FFFFFF'; g.fillRect(zx - 14, GROUND + 2, 44, 3);
+      g.fillStyle = '#FF6B4A'; g.fillRect(zx - 6, GROUND + 2, 28, 3);
+      g.fillStyle = '#FFFFFF'; g.fillRect(zx + 4, GROUND + 2, 8, 3);
+      g.fillStyle = '#C8C8D8'; g.fillRect(zx + 34, GROUND - 16, 1, 18);
+      g.fillStyle = '#FF6B4A'; g.fillRect(zx + 35, GROUND - 16, 8, 4); g.fillRect(zx + 35, GROUND - 12, 5, 2);
+    }
+
+    if (S) {
+      S.picks.forEach(k => { spr(SPR.check, k.x, k.y); if (k.hint && (RM || Math.floor(t * 3) % 2)) text(k.hint, k.x + 3, k.y - 11, '#FCE45C', 'center'); });
+      S.obs.forEach(o => {
+        if (o.type === 'pillar') {
+          g.fillStyle = '#E8762C'; g.fillRect(Math.round(o.x), o.y, o.w, o.h);
+          g.fillStyle = '#A84C14'; g.fillRect(Math.round(o.x) + o.w - 2, o.y, 2, o.h);
+          g.fillStyle = '#FCE45C'; for (let y = o.y + 3; y < o.y + o.h - 2; y += 6) g.fillRect(Math.round(o.x) + 2, y, 5, 2);
+        } else if (o.type === 'brick') {
+          g.fillStyle = '#C83C3C'; g.fillRect(Math.round(o.x), o.y, o.w, o.h);
+          g.fillStyle = '#7C1C1C'; g.fillRect(Math.round(o.x), o.y + o.h - 2, o.w, 2);
+          text(o.label, o.x + 3, o.y + 2, '#FCE45C');
+          if (o.hint && (RM || Math.floor(t * 3) % 2)) text(o.hint, o.x + o.w / 2, o.y - 11, '#FCE45C', 'center');
+        } else {
+          const x = Math.round(o.x), y = Math.round(o.y);
+          g.fillStyle = '#F2F2F2'; g.fillRect(x, y, o.w, o.h);
+          g.fillStyle = '#000000'; g.fillRect(x, y, o.w, 6);
+          g.fillStyle = '#C83C3C'; g.fillRect(x + o.w - 6, y + 1, 4, 4);
+          text(o.label, x + o.w / 2, y + 9, '#000000', 'center');
+        }
+      });
+      if (S.planeX < VW + 40) spr(SPR.plane, S.planeX, 14);
+      if (S.dropped || S.phase !== 'drop') {
+        const blink = S.inv > 0 && S.phase === 'run' && Math.floor(S.t * 12) % 2;
+        if (!blink) {
+          if (S.phase === 'drop' && S.dropT < 1.1 || S.phase === 'dead') spr(SPR.free, S.px - 5, S.py - 4);
+          else spr(SPR.canopy, PX - 6, S.py - 7);
+          if (S.phase === 'run' && S.tut === 0 && (RM || Math.floor(t * 3) % 2)) text('UP/DOWN TO STEER', PX + 14, S.py - 4, '#FCE45C');
+        }
+      }
+      if (S.flash > 0) { g.fillStyle = 'rgba(255,255,255,.5)'; g.fillRect(0, TOP, VW, GROUND - TOP); }
+    } else {
+      // attract mode
+      const bob = RM ? 0 : Math.round(Math.sin(t * 2) * 3);
+      spr(SPR.canopy, 150, 44 + bob);
+      text('THE SKYDIVE PATH', VW / 2, 22, '#FCE45C', 'center');
+      if (RM || Math.floor(t * 2) % 2) text('PRESS START', VW / 2, 84, '#FFFFFF', 'center');
+      text(DEALS[dealIdx].name + ' - ' + (rig ? 'EASY' : 'HARD'), VW / 2, 98, rig ? '#5CC85C' : '#E8584C', 'center');
+    }
+
+    // HUD row
+    g.fillStyle = '#000000'; g.fillRect(0, 0, VW, TOP);
+    if (S) {
+      text(S.tut < 3 && S.phase === 'run' ? 'TRAINING' : 'ALT ' + ft(S.alt).padStart(5, ' '), 3, 2, '#FCE45C');
+      for (let i = 0; i < S.maxH; i++) { g.fillStyle = i < S.harness ? '#FF6B4A' : '#3A3346'; g.fillRect(118 + i * 9, 3, 7, 6); }
+      text(money(S.score), VW - 3, 2, '#F2F2F2', 'right');
+      if (S.phase === 'decision' && (RM || Math.floor(t * 3) % 2)) {
+        g.fillStyle = '#000000'; g.fillRect(70, 52, 180, 22);
+        text('DECISION AT ' + ft(S.alt) + ' FT', VW / 2, 59, '#FCE45C', 'center');
+      }
+      if (mode === 'end') {
+        g.fillStyle = '#000000'; g.fillRect(90, 50, 140, 22);
+        text(S.harness > 0 && S.alt <= 0 ? 'CLOSED WON' : 'GAME OVER', VW / 2, 57, S.harness > 0 && S.alt <= 0 ? '#5CC85C' : '#FF6B4A', 'center');
+      }
+    } else {
+      text('1 PLAYER', 3, 2, '#8C88A4');
+      if (best) text('HI ' + money(best), VW - 3, 2, '#F2F2F2', 'right');
+    }
+  }
+
+  // ---------- input ----------
+  function ok(){
+    if (menu) { menu.onPick(menu.sel); return; }
+  }
+  addEventListener('keydown', e => {
+    const k = e.key;
+    const up = k === 'ArrowUp' || k === 'w' || k === 'W', dn = k === 'ArrowDown' || k === 's' || k === 'S';
+    const inRun = mode === 'play' && S && S.phase !== 'decision';
+    if (up || dn || k === ' ') e.preventDefault();
+    if (inRun) { if (up) keys.up = true; if (dn) keys.down = true; return; }
+    if (up && !e.repeat) moveMenu(-1);
+    if (dn && !e.repeat) moveMenu(1);
+    if ((k === 'Enter' || k === ' ') && !e.repeat) { if (e.target.tagName === 'BUTTON' && e.target.classList.contains('opt')) return; e.preventDefault(); ok(); }
+    if (['1','2','3'].includes(k) && menu && +k <= menu.items.length && (mode === 'intro' || (S && S.phase === 'decision' && !S.cur.done))) { menu.sel = +k - 1; paintMenu(); ok(); }
+  });
+  addEventListener('keyup', e => {
+    const k = e.key;
+    if (k === 'ArrowUp' || k === 'w' || k === 'W') keys.up = false;
+    if (k === 'ArrowDown' || k === 's' || k === 'S') keys.down = false;
+  });
+  addEventListener('blur', () => { keys.up = keys.down = false; });
+
+  function hold(btn, dirKey, d){
+    const on = e => { e.preventDefault(); btn.classList.add('held');
+      if (mode === 'play' && S && S.phase !== 'decision') keys[dirKey] = true; else moveMenu(d); };
+    const off = () => { btn.classList.remove('held'); keys[dirKey] = false; };
+    btn.addEventListener('pointerdown', on);
+    ['pointerup','pointerleave','pointercancel'].forEach(t => btn.addEventListener(t, off));
+    btn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); moveMenu(d); } });
+  }
+  hold($('b-up'), 'up', -1); hold($('b-dn'), 'down', 1);
+  $('b-ok').addEventListener('click', ok);
+
+  const cvPtr = new Map();
+  function cvDir(){
+    keys.up = keys.down = false;
+    if (!(mode === 'play' && S && S.phase !== 'decision')) return;
+    for (const y of cvPtr.values()) { if (y < .5) keys.up = true; else keys.down = true; }
+  }
+  const relY = e => { const r = cvs.getBoundingClientRect(); return (e.clientY - r.top) / r.height; };
+  cvs.addEventListener('pointerdown', e => {
+    if (!(mode === 'play' && S && S.phase !== 'decision')) { ok(); return; }
+    cvPtr.set(e.pointerId, relY(e)); try { cvs.setPointerCapture(e.pointerId); } catch (_) {} cvDir();
+  });
+  cvs.addEventListener('pointermove', e => { if (cvPtr.has(e.pointerId)) { cvPtr.set(e.pointerId, relY(e)); cvDir(); } });
+  ['pointerup','pointercancel','lostpointercapture'].forEach(t => cvs.addEventListener(t, e => { if (cvPtr.delete(e.pointerId)) cvDir(); }));
+
+  // ---------- loop ----------
+  let last = performance.now();
+  function frame(now){
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (!S) scroll += 12 * dt;
+    if (S && mode === 'play' && S.phase !== 'decision') update(dt);
+    if (S) paintMeters(S.ctx, S.comms);
+    draw(now);
+    requestAnimationFrame(frame);
+  }
+  document.addEventListener('visibilitychange', () => { last = performance.now(); keys.up = keys.down = false; });
+  renderIntro();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
