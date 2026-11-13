@@ -376,6 +376,7 @@
   .form-card .btn{width:100%;margin-top:22px}
   .fine{font-size:13px;color:var(--slate);margin-top:14px}
   .form-status{margin-top:14px;font-size:15px;font-weight:600}
+  .book-points{margin:16px 0 22px;padding-left:18px;display:grid;gap:8px;color:var(--slate)}
   .thanks{display:none}
   .thanks.show{display:block}
   .thanks h3{font-size:26px}
@@ -983,45 +984,23 @@
     <div>
       <span class="eyebrow">The full demo</span>
       <h2 style="margin-top:14px">Jump with <em>Skydive CRM!</em></h2>
-      <p class="lede">Get a full demo and see how Skydive CRM can work in your Dynamics ecosystem, end to end.</p>
+      <p class="lede">Book a full demo and see how Skydive CRM can work in your Dynamics ecosystem, end to end.</p>
       <div class="vig reveal" role="img" aria-label="Example: Skydive offers the full demo">
         <div class="vig-head"><svg width="27" height="18" aria-hidden="true"><use href="#mark"/></svg><b>Skydive</b><span class="when">Now</span></div>
-        <div class="bubble sky">Ready when you are. Tell us a little about you and we'll set up a full demo.</div>
+        <div class="bubble sky">Ready when you are. Pick a time and we'll walk you through it.</div>
       </div>
     </div>
 
-    <div class="form-card">
-      <form id="demo-form" novalidate>
-        <h3>Request a full demo</h3>
-        <p class="sub">Send us a quick note and we'll set up a time to walk you through it.</p>
-        <div class="fields">
-          <div class="field"><label for="fname">First name</label><input id="fname" name="first_name" autocomplete="given-name" required></div>
-          <div class="field"><label for="lname">Last name</label><input id="lname" name="last_name" autocomplete="family-name" required></div>
-          <div class="field full"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
-          <div class="field"><label for="company">Company</label><input id="company" name="company" autocomplete="organization" required></div>
-          <div class="field"><label for="role">Role</label><input id="role" name="role" autocomplete="organization-title"></div>
-          <div class="field full"><label for="dyn">Your Dynamics today</label>
-            <select id="dyn" name="dynamics">
-              <option value="">Choose one</option>
-              <option>Dynamics 365 Sales (cloud)</option>
-              <option>Dynamics CRM on-premises</option>
-              <option>Evaluating Dynamics</option>
-              <option>Something else</option>
-            </select>
-          </div>
-          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-        </div>
-        <button class="btn btn-coral" type="submit">Email us for a demo</button>
-        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        <p class="fine">This opens an email to <a href="mailto:websales@singlestoneconsulting.com">websales@singlestoneconsulting.com</a> with your details filled in.</p>
-      </form>
-
-      <div class="thanks" id="thanks" tabindex="-1">
-        <h3>You're cleared to jump.</h3>
-        <p>Your email should be open and ready to send. Hit send and we'll be in touch to set up your demo.</p>
-        <a class="btn btn-coral" id="demo-link" href="mailto:websales@singlestoneconsulting.com" style="margin-top:22px">Email didn't open? Write to us</a>
-        <p class="fine">Or write directly to websales@singlestoneconsulting.com.</p>
-      </div>
+    <div class="form-card book-card">
+      <h3>Book your demo</h3>
+      <p class="sub">Pick a time that works for you. You'll get a calendar invite with the meeting link right away.</p>
+      <ul class="book-points">
+        <li>See Skydive on a Dynamics setup like yours</li>
+        <li>Talk through what a setup would look like for your team</li>
+        <li>Leave with a clear next step and a quote</li>
+      </ul>
+      <a class="btn btn-coral" id="book-link" href="https://bookings.cloud.microsoft/book/SkydiveCRM@singlestoneconsulting.com/" target="_blank" rel="noopener">Schedule online</a>
+      <p class="fine">Opens our booking page in a new tab. Prefer email? Write to <a href="mailto:websales@singlestoneconsulting.com">websales@singlestoneconsulting.com</a>.</p>
     </div>
   </div>
 </section>
@@ -1064,33 +1043,9 @@
   tabs.forEach((b,i)=>b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];n.focus();showTab(n);}}));
   if(tabs.length) showTab(tabs[0]);
 
-  const form = document.getElementById('demo-form');
-  const statusEl = document.getElementById('form-status');
-  const thanks = document.getElementById('thanks');
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const required = [...form.querySelectorAll('[required]')];
-    const missing = required.find(el => !el.value.trim());
-    if (missing) { statusEl.textContent = 'Please fill in your name, work email, and company.'; missing.focus(); return; }
-    if (!form.email.checkValidity()) { statusEl.textContent = 'Please enter a valid work email.'; form.email.focus(); return; }
-
-    const v = (n) => (form.elements[n] && form.elements[n].value.trim()) || '';
-    const subject = 'Skydive CRM demo request' + (v('company') ? ': ' + v('company') : '');
-    const body = [
-      'Hello,', '', "I'd like to see a full demo of Skydive CRM.", '',
-      'Name: ' + v('first_name') + ' ' + v('last_name'),
-      'Email: ' + v('email'),
-      'Company: ' + v('company'),
-      'Role: ' + (v('role') || '-'),
-      'Dynamics today: ' + (v('dynamics') || '-'), ''
-    ].join('\n');
-    if (window.gtag) gtag('event', 'generate_lead', { form_name: 'demo_request', dynamics: v('dynamics') || 'not set' });
-    window.location.href = 'mailto:' + DEMO_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    form.style.display = 'none';
-    thanks.classList.add('show');
-    thanks.focus();
-  });
+  // Booking link
+  const book = document.getElementById('book-link');
+  if (book) book.addEventListener('click', () => { if (window.gtag) gtag('event', 'generate_lead', { form_name: 'bookings_click' }); });
 
   // Analytics: CTA and email clicks
   document.addEventListener('click', (e) => {
