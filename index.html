@@ -11,7 +11,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Skydive CRM | Trust the harness. Fly free.</title>
-<meta name="description" content="Skydive CRM is an AI harness on top of Microsoft Dynamics. Sellers talk it through; Skydive updates the CRM and suggests the next best action. Safe, secure, and built for how you actually work.">
+<meta name="description" content="Talk to Skydive. Keep your CRM current. Get back to selling. Tell Skydive what happened on a sales call; it updates Microsoft Dynamics Sales for you and suggests what to do next.">
 <meta property="og:title" content="Skydive CRM | Trust the harness. Fly free.">
 <meta property="og:description" content="An AI harness on top of Microsoft Dynamics that lets sellers get back to selling.">
 <meta property="og:url" content="https://skydivecrm.com/">
@@ -92,10 +92,12 @@
   .hero{padding:72px 0 112px;overflow:hidden;background:linear-gradient(180deg,var(--sky-light) 0%,var(--mist) 55%,var(--haze) 100%)}
   .cloud{position:absolute;border-radius:999px;background:#fff;pointer-events:none}
   .hero .wrap{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
-  .hero h1{font-size:clamp(46px,7vw,88px);font-weight:700;line-height:1.02;letter-spacing:-0.035em}
+  .hero h1{font-size:clamp(36px,4.6vw,60px);font-weight:700;line-height:1.02;letter-spacing:-0.035em}
   .hero h1 em{font-style:normal;color:var(--sky-ink)}
   .hero .lede{font-size:21px;margin-top:24px;color:#34495E}
   .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+  .foot-tag{display:block;font-family:var(--display);font-size:16px;color:#fff;margin-bottom:6px}
+  .hero-tag{margin-top:18px;font-family:var(--display);font-weight:600;font-size:clamp(19px,2vw,24px);color:var(--midnight);letter-spacing:-0.01em}
   .hero-note{margin-top:18px;font-size:14px;color:var(--slate)}
   .hero-mark{position:absolute;right:-30px;top:-70px;width:220px}
   .hero-visual{position:relative}
@@ -417,7 +419,17 @@
   .ap-grid p{margin:4px 0 0;color:var(--midnight);line-height:1.5}
   .ap-grid u{text-decoration-color:rgba(78,95,114,.4);text-underline-offset:2px}
   .ap-chips{display:flex;gap:6px;padding:10px 14px;background:var(--haze);flex-wrap:wrap}.ap-chips span{font-size:11px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:99px;padding:3px 10px;color:var(--slate)}
+  /* Pricing */
+  .pricing{background:#fff}
+  .price-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:44px}
+  .price-card{border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:var(--haze)}
+  .price-card:first-child{background:var(--midnight);color:#fff;border-color:var(--midnight)}
+  .price-card h3{font-size:20px;font-weight:600}
+  .price-card ul{margin:14px 0 0;padding-left:18px;display:grid;gap:8px;color:var(--slate);font-size:15.5px}
+  .price-card:first-child ul{color:var(--on-dark)}
+  .price-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:32px;color:var(--slate)}
   @media (max-width:960px){
+    .price-grid{grid-template-columns:1fr}
     .views-grid{grid-template-columns:1fr}.view-card{padding:20px}
   .win:has(.sk-app){min-width:0}.sk-app{grid-template-columns:1fr}.sk-board{grid-template-columns:repeat(4,200px);overflow-x:auto;padding-bottom:6px}.sk-tools{margin-left:0}.sk-stage::after{display:none}.sk-stage{min-height:0}.sk-app>*{min-width:0}.sk-modal{position:static;width:auto;margin-top:12px}
     section{padding:72px 0}
@@ -493,9 +505,10 @@
       <span class="wordmark">Skydive <span>CRM</span></span>
     </a>
     <nav class="nav-links" aria-label="Main">
+      <a class="text" href="#before-after">Before and after</a>
       <a class="text" href="#flow">Deal flow</a>
       <a class="text" href="#how">How it works</a>
-      <a class="text" href="#before-after">Before and after</a>
+      <a class="text" href="#pricing">Pricing</a>
       <a class="btn btn-coral btn-sm nav-cta" href="#demo"><span class="long">Jump with Skydive CRM!</span><span class="short">Jump in!</span></a>
     </nav>
   </div>
@@ -512,8 +525,9 @@
   <div class="wrap">
     <div>
       <span class="eyebrow">An AI harness for Microsoft Dynamics Sales</span>
-      <h1 style="margin-top:18px">Trust the harness.<br><em>Fly free.</em></h1>
-      <p class="lede">Skydive CRM sits on top of the Dynamics you already own. Your sellers talk it through, and Skydive keeps the CRM current and tells them what to do next. Safe and secure, so they can do their best work.</p>
+      <h1 style="margin-top:18px">Talk to Skydive.<br>Keep your CRM current.<br><em>Get back to selling.</em></h1>
+      <p class="hero-tag">Trust the harness. Fly free.</p>
+      <p class="lede">Tell Skydive what happened on a sales call. It updates Microsoft Dynamics Sales for you and suggests what to do next.</p>
       <div class="hero-ctas">
         <a class="btn btn-coral" href="#demo">Jump with Skydive CRM!</a>
         <a class="btn btn-line" href="#before-after">See the before and after</a>
@@ -564,7 +578,7 @@
     <span class="eyebrow">Before and after</span>
     <h2 class="h2">Same Dynamics. A different day.</h2>
     <p class="lede">Today, updating a deal means wading through grids, sign-ins, and loading screens. With Skydive, your whole pipeline sits on one board you can read at a glance.</p>
-    <a class="ba-dl" href="assets/skydive-before-after.gif" download="Skydive-CRM-before-and-after.gif"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v8m0 0L3.8 6.3M7 9.5l3.2-3.2M2 12.5h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download the before and after</a>
+    <a class="ba-dl" href="assets/skydive-crm-before-after.png" download="Skydive-CRM-before-and-after.png"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v8m0 0L3.8 6.3M7 9.5l3.2-3.2M2 12.5h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download the before and after (PNG)</a>
     <div class="ba-tabs" role="tablist" aria-label="Choose a view">
       <button class="ba-tab" role="tab" id="tab-desk" aria-controls="ba-desk" aria-selected="true">Desktop</button>
       <button class="ba-tab" role="tab" id="tab-mob" aria-controls="ba-mob" aria-selected="false">Mobile</button>
@@ -889,6 +903,44 @@
   </div>
 </section>
 
+<!-- ===== PRICING ===== -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <span class="eyebrow">Pricing</span>
+    <h2 class="h2">No per-seat license. One setup, priced to your team.</h2>
+    <p class="lede">Skydive isn't a subscription. We set it up inside your Microsoft environment as a scoped engagement, then you run it. Every Dynamics setup is different, so every quote is too.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>What you pay for</h3>
+        <ul>
+          <li>A one-time setup engagement that connects Skydive to your Dynamics 365 Sales</li>
+          <li>The board and update flows configured to your stages, fields, and teams</li>
+          <li>Getting your sellers up and running</li>
+          <li>Optional ongoing support if you want us to keep improving it</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <h3>What shapes the price</h3>
+        <ul>
+          <li>How many sellers and teams will use it</li>
+          <li>How customized your Dynamics is: fields, stages, and integrations</li>
+          <li>Where you'll host it</li>
+          <li>Whether you add Claude Enterprise for conversational updates</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <h3>What you'll need</h3>
+        <ul>
+          <li>Microsoft Dynamics 365 Sales</li>
+          <li>A place to host internal apps in your Microsoft environment</li>
+          <li>Claude Enterprise, optional, licensed directly by you</li>
+        </ul>
+      </div>
+    </div>
+    <p class="price-cta"><a class="btn btn-coral" href="#demo">Get a quote</a><span>Book a demo and we'll scope it with you.</span></p>
+  </div>
+</section>
+
 <!-- ===== TEASER VIDEO ===== -->
 <section class="teaser" id="teaser" hidden>
   <div class="wrap">
@@ -982,7 +1034,7 @@
       <svg width="42" height="28" aria-hidden="true"><use href="#mark"/></svg>
       <span class="wordmark" style="font-size:19px">Skydive <span>CRM</span></span>
     </a>
-    <div>&copy; <span id="yr">2026</span> Skydive CRM. Microsoft Dynamics is a trademark of Microsoft Corporation.
+    <div><b class="foot-tag">Trust the harness. Fly free.</b>&copy; <span id="yr">2026</span> Skydive CRM. Microsoft Dynamics is a trademark of Microsoft Corporation.
       <small>Companies, people, and deals in the examples are fictional. Photos from Unsplash.</small></div>
   </div>
 </footer>
